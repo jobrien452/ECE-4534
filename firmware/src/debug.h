@@ -1,6 +1,6 @@
 /* 
  * File:   debug.h
- * Author: Jake
+ * Author: Jake OBrien
  *
  * Created on November 30, 2017, 11:54 AM
  */
@@ -12,11 +12,6 @@
 #include <string.h>
 #include "system_config.h"
 #include "system_definitions.h"
-/* This section lists the other files that are included in this file.
- */
-
-/* TODO:  Include other files here if needed. */
-
 
 /* Provide C++ Compatibility */
 #ifdef __cplusplus
@@ -109,8 +104,7 @@ extern "C" {
     void dbgUARTstr(char* outStr);
     void dbgOutputLoc(unsigned char outVal);
     void dbgAssert(int assert);
-    void recUARTVal( void );
-    //void getDistance( AMessage * x);
+    void recUARTVal( void ) __attribute__ ((deprecated));
     void jsonFormat(int type, int side, int delta, char * str);
     void ledTrig( bool b);
     /* Provide C++ Compatibility */

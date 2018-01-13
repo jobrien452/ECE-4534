@@ -15,12 +15,8 @@ void dbgSetup() {
     TRISFCLR |= RF1;
     TRISACLR |= RA10;
     TRISBCLR |= RB11 | RB12;
-    //myUSARTHandle = 
-    //DRV_USART_Open(DRV_USART_INDEX_0, DRV_IO_INTENT_READWRITE);
     DRV_ADC_Open();
     DRV_ADC_ChannelScanInputsAdd(ADC_INPUT_SCAN_AN0 | ADC_INPUT_SCAN_AN1);
-    //PLIB_ADC_MuxAInputScanEnable(DRV_ADC_ID_1);
-    //DRV_ADC_Start();
 }
 
 void dbgOutputLoc(unsigned char outVal) {
@@ -53,7 +49,6 @@ void dbgOutputLoc(unsigned char outVal) {
 
 void dbgUARTVal(unsigned char outVal) {
     
-    //while(DRV_USART_TRANSFER_STATUS_TRANSMIT_FULL){};
     if(!(DRV_USART_TRANSFER_STATUS_TRANSMIT_FULL & DRV_USART0_TransferStatus())) {
         DRV_USART0_WriteByte(outVal);
         
@@ -79,27 +74,22 @@ void jsonFormat(int type, int side, int delta, char * str) {
         strcat(str, "\"side\" : \"HUMAN\",\n\r\t");
     }
     
-    //if(delta > 0) {
-        sprintf(buff, "\"delta\" : \"%d\"\n\r\t", delta);
-        strcat(str, buff);
-    //}
+    sprintf(buff, "\"delta\" : \"%d\"\n\r\t", delta);
+    strcat(str, buff);
     
     strcat(str, "}\n\r\0");
-    //pxMessage = &xMessage;
 }
 
 void dbgUARTstr(char* outStr) {
     int i;
-    //PORTA = RA3;
     for(i = 0; i < strlen(outStr); i++) {
-        //if(outStr[i] != "/0"){
-            if(!(DRV_USART_TRANSFER_STATUS_TRANSMIT_FULL & DRV_USART0_TransferStatus())) {
-                dbgUARTVal(outStr[i]);
-            }
-            else {
-                i--;
-            }
-        //}
+
+        if(!(DRV_USART_TRANSFER_STATUS_TRANSMIT_FULL & DRV_USART0_TransferStatus())) {
+            dbgUARTVal(outStr[i]);
+        }
+        else {
+            i--;
+        }
     }
 }
 
@@ -138,12 +128,11 @@ void dbgOutputVal(unsigned char outVal) {
 
 void dbgAssert(int assert) {
     if(!assert) {
-        //Disable_global_interrupt();
         vTaskSuspendAll();
         PORTA |= RA3;
     }
 }
-/*TODO enable adc with auto sample enable plib function*/
+/* deprecated method from rover code*/
 void recUARTVal() {
      int i = 0;
      //unsigned char msg[20] = "11 0";
